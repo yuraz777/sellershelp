@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import Image from 'next/image'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -8,13 +9,17 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex flex-col leading-tight">
-            <span className="text-xl font-bold text-navy">SellersHelp</span>
-            <span className="text-xs text-gray-400 tracking-wide">Компания для людей</span>
-          </div>
+          <a href="/" className="flex-shrink-0">
+            <Image
+              src="/logo.png"
+              alt="SellersHelp — Компания для Людей"
+              width={160}
+              height={60}
+              className="h-12 w-auto object-contain"
+              priority
+            />
+          </a>
 
-          {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-8">
             {[
               ['Преимущества', '#benefits'],
@@ -30,13 +35,11 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* CTA */}
           <div className="hidden md:flex items-center gap-4">
             <a href="tel:+79052836479" className="text-sm font-semibold text-navy">+7 905 283 64 79</a>
             <a href="#audit" className="btn-primary text-sm px-5 py-2.5">Бесплатный аудит</a>
           </div>
 
-          {/* Mobile menu button */}
           <button className="md:hidden p-2" onClick={() => setMenuOpen(!menuOpen)}>
             <div className="w-6 h-0.5 bg-navy mb-1.5"></div>
             <div className="w-6 h-0.5 bg-navy mb-1.5"></div>
@@ -44,7 +47,6 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile menu */}
         {menuOpen && (
           <div className="md:hidden py-4 border-t border-gray-100">
             {[

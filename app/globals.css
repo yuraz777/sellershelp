@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #1B3A6B;
+  --navy-dark: #1A1A2E;
+  --amber: #F5A623;
+  --gray-light: #F7F8FA;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: #1A1A2E;
+  background: #ffffff;
+  font-family: 'Raleway', 'Montserrat', system-ui, sans-serif;
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-block bg-amber text-white font-semibold px-8 py-4 rounded-lg hover:bg-amber-hover transition-all duration-200 text-base;
+  }
+  .btn-outline {
+    @apply inline-block border-2 border-navy text-navy font-semibold px-8 py-4 rounded-lg hover:bg-navy hover:text-white transition-all duration-200 text-base;
+  }
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold text-navy-dark leading-tight;
+  }
+  .section-subtitle {
+    @apply text-lg text-gray-500 mt-4 max-w-2xl;
+  }
+  .card {
+    @apply bg-white rounded-2xl p-6 shadow-sm border border-gray-100;
+  }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease both;
+}

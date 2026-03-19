@@ -12,7 +12,7 @@ export default function Header() {
           <a href="/" className="flex-shrink-0">
             <Image
               src="/logo.png"
-              alt="SellersHelp — Компания для Людей"
+              alt="SellersHelp — Помощь продавцам"
               width={160}
               height={60}
               className="h-12 w-auto object-contain"

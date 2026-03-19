@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export default function Footer() {
   return (
     <footer className="bg-navy-dark py-12">
@@ -5,8 +7,13 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
           {/* Brand */}
           <div>
-            <div className="text-white font-bold text-xl mb-1">SellersHelp</div>
-            <div className="text-gray-400 text-xs mb-4">Компания для людей</div>
+            <Image
+              src="/logo.png"
+              alt="SellersHelp — Помощь продавцам"
+              width={140}
+              height={52}
+              className="h-12 w-auto object-contain mb-4 brightness-0 invert"
+            />
             <p className="text-gray-400 text-sm leading-relaxed">
               Маркетплейс — это живой организм. Мы за ним следим каждый день, пока вы занимаетесь бизнесом.
             </p>
@@ -43,8 +50,8 @@ export default function Footer() {
                 ssellershelp@ya.ru
               </a>
               <div className="text-gray-500 text-xs pt-2">
-                ИНН 772314579555<br />
-                КПП 771301001
+                ИП Зуев Юрий Васильевич<br />
+                ИНН 772314579555
               </div>
             </div>
           </div>

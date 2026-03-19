@@ -6,18 +6,13 @@ export async function POST(request: NextRequest) {
     const { name, phone, marketplace, revenue } = body;
 
     const token = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId = '-1002849866041'; // сюда вставим твой chat_id
+    const chatId = '-1002357716962';
+    const sheetsUrl = 'https://script.google.com/macros/s/AKfycbzDjS0UNkfCp9zGY7JRHALsZG22O3wFVcVbyvgOaiiv292PUIbRs8xk6xDw6--m8KbJ3w/exec';
 
-    const message = `
-🆕 Новая заявка на аудит!
+    const message = `🆕 <b>Новая заявка на аудит!</b>\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n🛒 Маркетплейс: ${marketplace || '—'}\n💰 Оборот: ${revenue || '—'}`;
 
-👤 Имя: ${name}
-📞 Телефон: ${phone}
-🛒 Маркетплейс: ${marketplace || 'не указан'}
-💰 Оборот: ${revenue || 'не указан'}
-    `.trim();
-
-    const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    // Отправка в Telegram
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -27,13 +22,16 @@ export async function POST(request: NextRequest) {
       }),
     });
 
-    if (!response.ok) {
-      throw new Error('Telegram API error');
-    }
+    // Отправка в Google Sheets
+    await fetch(sheetsUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone, marketplace, revenue }),
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error sending to Telegram:', error);
-    return NextResponse.json({ error: 'Failed to send message' }, { status: 500 });
+    console.error('Error:', error);
+    return NextResponse.json({ error: 'Failed to send' }, { status: 500 });
   }
 }

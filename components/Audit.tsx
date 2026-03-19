@@ -3,7 +3,13 @@ import { useState } from 'react'
 
 export default function Audit() {
   const [form, setForm] = useState({ name: '', phone: '', platform: '' })
-  const [sent, setSent] = useState(false)
+const [sent, setSent] = useState(false)
+const [phoneError, setPhoneError] = useState('')
+
+const validatePhone = (phone: string) => {
+  const cleaned = phone.replace(/\D/g, '')
+  return cleaned.length >= 10 && cleaned.length <= 12
+}
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

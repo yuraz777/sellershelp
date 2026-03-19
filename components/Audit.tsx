@@ -5,10 +5,25 @@ export default function Audit() {
   const [form, setForm] = useState({ name: '', phone: '', platform: '' })
   const [sent, setSent] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Here you would send the form data to your backend
-    setSent(true)
+    try {
+      const res = await fetch('/api/audit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          marketplace: form.platform,
+          revenue: '',
+        }),
+      })
+      if (res.ok) {
+        setSent(true)
+      }
+    } catch (error) {
+      console.error('Ошибка отправки:', error)
+    }
   }
 
   return (

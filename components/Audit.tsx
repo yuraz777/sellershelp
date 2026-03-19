@@ -3,16 +3,31 @@ import { useState } from 'react'
 
 export default function Audit() {
   const [form, setForm] = useState({ name: '', phone: '', platform: '' })
-const [sent, setSent] = useState(false)
-const [phoneError, setPhoneError] = useState('')
+  const [sent, setSent] = useState(false)
+  const [phoneError, setPhoneError] = useState('')
+  const [loading, setLoading] = useState(false)
 
-const validatePhone = (phone: string) => {
-  const cleaned = phone.replace(/\D/g, '')
-  return cleaned.length >= 10 && cleaned.length <= 12
-}
+  const validatePhone = (phone: string) => {
+    const cleaned = phone.replace(/\D/g, '')
+    return cleaned.length >= 10 && cleaned.length <= 12
+  }
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setForm({...form, phone: value})
+    if (phoneError && validatePhone(value)) {
+      setPhoneError('')
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!validatePhone(form.phone)) {
+      setPhoneError('Введите корректный номер телефона')
+      return
+    }
+    setPhoneError('')
+    setLoading(true)
     try {
       const res = await fetch('/api/audit', {
         method: 'POST',
@@ -29,6 +44,8 @@ const validatePhone = (phone: string) => {
       }
     } catch (error) {
       console.error('Ошибка отправки:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -74,9 +91,14 @@ const validatePhone = (phone: string) => {
                     required
                     placeholder="+7 999 000 00 00"
                     value={form.phone}
-                    onChange={e => setForm({...form, phone: e.target.value})}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors"
+                    onChange={handlePhoneChange}
+                    className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-colors ${
+                      phoneError ? 'border-red-400 focus:border-red-400' : 'border-gray-200 focus:border-navy'
+                    }`}
                   />
+                  {phoneError && (
+                    <p className="text-red-500 text-xs mt-1">{phoneError}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Площадка</label>
@@ -95,8 +117,12 @@ const validatePhone = (phone: string) => {
                   </select>
                 </div>
               </div>
-              <button type="submit" className="w-full bg-amber text-white font-bold py-4 rounded-xl text-lg hover:bg-amber-hover transition-colors">
-                Получить бесплатный аудит →
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-amber text-white font-bold py-4 rounded-xl text-lg hover:bg-amber-hover transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {loading ? 'Отправляем...' : 'Получить бесплатный аудит →'}
               </button>
               <p className="text-xs text-gray-400 text-center mt-4">
                 Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности

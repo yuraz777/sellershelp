@@ -90,7 +90,7 @@ export default function Policy() {
             <p>ИП Зуев Юрий Васильевич</p>
             <p>ИНН: 772314579555</p>
             <p>Email: <a href="mailto:ssellershelp@ya.ru" className="text-navy hover:underline">ssellershelp@ya.ru</a></p>
-            <p>Телефон: <a href="tel:+79052836479" className="text-navy hover:underline">+7 905 283 64 79</a></p>
+            <p>Телефон: <a href="tel:+79932580300" className="text-navy hover:underline">+7 993 258 03 00</a></p>
           </div>
         </section>
 

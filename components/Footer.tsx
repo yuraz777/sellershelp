@@ -12,7 +12,7 @@ export default function Footer() {
               alt="SellersHelp — Помощь продавцам"
               width={140}
               height={52}
-              className="h-12 w-auto object-contain mb-4 brightness-0 invert"
+              className="h-14 w-auto object-contain mb-4"
             />
             <p className="text-gray-400 text-sm leading-relaxed">
               Маркетплейс — это живой организм. Мы за ним следим каждый день, пока вы занимаетесь бизнесом.

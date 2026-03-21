@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Host: sellershelp.ru
+Sitemap: https://sellershelp.ru/sitemap.xml

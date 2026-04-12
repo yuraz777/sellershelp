@@ -11,23 +11,19 @@ export async function POST(request: NextRequest) {
 
     const message = `🆕 <b>Новая заявка на аудит!</b>\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n🛒 Маркетплейс: ${marketplace || '—'}\n💰 Оборот: ${revenue || '—'}`;
 
-    // Отправка в Telegram
+    // Telegram — ждём (важно)
     await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message,
-        parse_mode: 'HTML',
-      }),
+      body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: 'HTML' }),
     });
 
-    // Отправка в Google Sheets
-    await fetch(sheetsUrl, {
+    // Google Sheets — в фоне, не ждём
+    fetch(sheetsUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, phone, marketplace, revenue }),
-    });
+    }).catch(() => {});
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
 
     const token = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = '-1002357716962';
-    const sheetsUrl = 'https://script.google.com/macros/s/AKfycbzDjS0UNkfCp9zGY7JRHALsZG22O3wFVcVbyvgOaiiv292PUIbRs8xk6xDw6--m8KbJ3w/exec';
+    const sheetsUrl = 'https://script.google.com/macros/s/AKfycbyGFRvmjtbbFPnewD7jWYBr1A26Mt3G_cK8K5Sv-3HCU0boQeLNLbdW2SHA-sPo1dSl/exec';
 
     const message = `🆕 <b>Новая заявка на аудит!</b>\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n🛒 Маркетплейс: ${marketplace || '—'}\n💰 Оборот: ${revenue || '—'}`;
 

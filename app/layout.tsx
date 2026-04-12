@@ -23,6 +23,14 @@ export const metadata: Metadata = {
     siteName: 'SellersHelp',
     locale: 'ru_RU',
     type: 'website',
+    images: [
+      {
+        url: 'https://sellershelp.ru/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'SellersHelp — Помощь продавцам на маркетплейсах',
+      },
+    ],
   },
 }
 

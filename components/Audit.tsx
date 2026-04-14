@@ -1,11 +1,12 @@
 'use client'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function Audit() {
   const [form, setForm] = useState({ name: '', phone: '', platform: '' })
-  const [sent, setSent] = useState(false)
   const [phoneError, setPhoneError] = useState('')
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   const validatePhone = (phone: string) => {
     const cleaned = phone.replace(/\D/g, '')
@@ -40,7 +41,10 @@ export default function Audit() {
         }),
       })
       if (res.ok) {
-        setSent(true)
+        if (typeof window !== 'undefined' && (window as any).ym) {
+          ;(window as any).ym(108514497, 'reachGoal', 'form_submit')
+        }
+        router.push('/thank-you')
       }
     } catch (error) {
       console.error('Ошибка отправки:', error)
@@ -64,71 +68,63 @@ export default function Audit() {
             В рамках бесплатного аудита разберём ваш кабинет и честно скажем что работает, что мешает продажам и что можно улучшить прямо сейчас.
           </p>
 
-          {sent ? (
-            <div className="bg-white/10 rounded-2xl p-10 text-white">
-              <div className="text-5xl mb-4">✓</div>
-              <h3 className="text-2xl font-bold mb-2">Заявка получена!</h3>
-              <p className="text-blue-200">Мы свяжемся с вами в ближайшее время.</p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 text-left shadow-xl">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Ваше имя</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Александр"
-                    value={form.name}
-                    onChange={e => setForm({...form, name: e.target.value})}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Телефон</label>
-                  <input
-                    type="tel"
-                    required
-                    placeholder="+7 999 000 00 00"
-                    value={form.phone}
-                    onChange={handlePhoneChange}
-                    className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-colors ${
-                      phoneError ? 'border-red-400 focus:border-red-400' : 'border-gray-200 focus:border-navy'
-                    }`}
-                  />
-                  {phoneError && (
-                    <p className="text-red-500 text-xs mt-1">{phoneError}</p>
-                  )}
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Площадка</label>
-                  <select
-                    required
-                    value={form.platform}
-                    onChange={e => setForm({...form, platform: e.target.value})}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-white"
-                  >
-                    <option value="">Выберите...</option>
-                    <option>Wildberries</option>
-                    <option>Ozon</option>
-                    <option>Яндекс Маркет</option>
-                    <option>Несколько площадок</option>
-                    <option>Ещё не выбрал</option>
-                  </select>
-                </div>
+          <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 text-left shadow-xl">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Ваше имя</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Александр"
+                  value={form.name}
+                  onChange={e => setForm({...form, name: e.target.value})}
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors"
+                />
               </div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-amber text-white font-bold py-4 rounded-xl text-lg hover:bg-amber-hover transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
-              >
-                {loading ? 'Отправляем...' : 'Получить бесплатный аудит →'}
-              </button>
-              <p className="text-xs text-gray-400 text-center mt-4">
-                Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
-              </p>
-            </form>
-          )}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Телефон</label>
+                <input
+                  type="tel"
+                  required
+                  placeholder="+7 999 000 00 00"
+                  value={form.phone}
+                  onChange={handlePhoneChange}
+                  className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-colors ${
+                    phoneError ? 'border-red-400 focus:border-red-400' : 'border-gray-200 focus:border-navy'
+                  }`}
+                />
+                {phoneError && (
+                  <p className="text-red-500 text-xs mt-1">{phoneError}</p>
+                )}
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Площадка</label>
+                <select
+                  required
+                  value={form.platform}
+                  onChange={e => setForm({...form, platform: e.target.value})}
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-white"
+                >
+                  <option value="">Выберите...</option>
+                  <option>Wildberries</option>
+                  <option>Ozon</option>
+                  <option>Яндекс Маркет</option>
+                  <option>Несколько площадок</option>
+                  <option>Ещё не выбрал</option>
+                </select>
+              </div>
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-amber text-white font-bold py-4 rounded-xl text-lg hover:bg-amber-hover transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Отправляем...' : 'Получить бесплатный аудит →'}
+            </button>
+            <p className="text-xs text-gray-400 text-center mt-4">
+              Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+            </p>
+          </form>
         </div>
       </div>
     </section>

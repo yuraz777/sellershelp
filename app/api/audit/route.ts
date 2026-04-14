@@ -11,12 +11,18 @@ export async function POST(request: NextRequest) {
 
     const message = `🆕 <b>Новая заявка на аудит!</b>\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n🛒 Маркетплейс: ${marketplace || '—'}\n💰 Оборот: ${revenue || '—'}`;
 
-    // Telegram — ждём (важно)
-    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    // Telegram — с таймаутом 5 секунд
+    const telegramPromise = fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: 'HTML' }),
     });
+
+    const timeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Telegram timeout')), 5000)
+    );
+
+    await Promise.race([telegramPromise, timeout]).catch(() => {});
 
     // Google Sheets — в фоне, не ждём
     fetch(sheetsUrl, {
@@ -28,6 +34,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error:', error);
-    return NextResponse.json({ error: 'Failed to send' }, { status: 500 });
+    return NextResponse.json({ success: true }); // всегда возвращаем success чтобы редирект сработал
   }
 }

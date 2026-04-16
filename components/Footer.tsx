@@ -1,5 +1,4 @@
 import Image from 'next/image'
-
 export default function Footer() {
   return (
     <footer className="bg-navy-dark py-12">
@@ -18,7 +17,6 @@ export default function Footer() {
               Маркетплейс — это живой организм. Мы за ним следим каждый день, пока вы занимаетесь бизнесом.
             </p>
           </div>
-
           {/* Navigation */}
           <div>
             <div className="text-gray-300 font-semibold text-sm mb-4">Навигация</div>
@@ -38,7 +36,6 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-
           {/* Contacts */}
           <div>
             <div className="text-gray-300 font-semibold text-sm mb-4">Контакты</div>
@@ -56,14 +53,18 @@ export default function Footer() {
             </div>
           </div>
         </div>
-
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 text-xs">
             © {new Date().getFullYear()} SellersHelp. Все права защищены.
           </p>
-          <a href="/policy" className="text-gray-500 hover:text-gray-300 text-xs transition-colors">
-            Политика конфиденциальности
-          </a>
+          <div className="flex gap-6">
+            <a href="/policy" className="text-gray-500 hover:text-gray-300 text-xs transition-colors">
+              Политика конфиденциальности
+            </a>
+            <a href="/terms" className="text-gray-500 hover:text-gray-300 text-xs transition-colors">
+              Пользовательское соглашение
+            </a>
+          </div>
         </div>
       </div>
     </footer>

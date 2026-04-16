@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation'
 export default function Audit() {
   const [form, setForm] = useState({ name: '', phone: '', platform: '' })
   const [phoneError, setPhoneError] = useState('')
+  const [consentPd, setConsentPd] = useState(false)
+  const [consentMarketing, setConsentMarketing] = useState(false)
+  const [consentError, setConsentError] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
@@ -27,7 +30,12 @@ export default function Audit() {
       setPhoneError('Введите корректный номер телефона')
       return
     }
+    if (!consentPd) {
+      setConsentError('Необходимо дать согласие на обработку персональных данных')
+      return
+    }
     setPhoneError('')
+    setConsentError('')
     setLoading(true)
     try {
       const res = await fetch('/api/audit', {
@@ -38,6 +46,7 @@ export default function Audit() {
           phone: form.phone,
           marketplace: form.platform,
           revenue: '',
+          consentMarketing,
         }),
       })
       if (res.ok) {
@@ -114,6 +123,62 @@ export default function Audit() {
                 </select>
               </div>
             </div>
+
+            <div className="mb-5 space-y-3">
+              <label className="flex items-start gap-3 cursor-pointer">
+                <div className="relative flex-shrink-0 mt-0.5">
+                  <input
+                    type="checkbox"
+                    checked={consentPd}
+                    onChange={e => {
+                      setConsentPd(e.target.checked)
+                      if (e.target.checked) setConsentError('')
+                    }}
+                    className="sr-only peer"
+                  />
+                  <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors
+                    ${consentPd ? 'bg-navy border-navy' : consentError ? 'border-red-400 bg-white' : 'border-gray-300 bg-white'}`}>
+                    {consentPd && (
+                      <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                  </div>
+                </div>
+                <span className="text-xs text-gray-600 leading-relaxed">
+                  Я даю согласие на обработку моих персональных данных в соответствии с{' '}
+                  <a href="/policy" target="_blank" className="text-navy underline hover:no-underline">Политикой конфиденциальности</a>{' '}
+                  <span className="text-red-500">*</span>
+                </span>
+              </label>
+
+              <label className="flex items-start gap-3 cursor-pointer">
+                <div className="relative flex-shrink-0 mt-0.5">
+                  <input
+                    type="checkbox"
+                    checked={consentMarketing}
+                    onChange={e => setConsentMarketing(e.target.checked)}
+                    className="sr-only peer"
+                  />
+                  <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors
+                    ${consentMarketing ? 'bg-navy border-navy' : 'border-gray-300 bg-white'}`}>
+                    {consentMarketing && (
+                      <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                  </div>
+                </div>
+                <span className="text-xs text-gray-600 leading-relaxed">
+                  Я согласен получать полезные материалы и специальные предложения от SellersHelp (необязательно)
+                </span>
+              </label>
+
+              {consentError && (
+                <p className="text-red-500 text-xs">{consentError}</p>
+              )}
+            </div>
+
             <button
               type="submit"
               disabled={loading}
@@ -121,9 +186,6 @@ export default function Audit() {
             >
               {loading ? 'Отправляем...' : 'Получить бесплатный аудит →'}
             </button>
-            <p className="text-xs text-gray-400 text-center mt-4">
-              Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
-            </p>
           </form>
         </div>
       </div>

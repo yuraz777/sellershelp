@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Claude / VSCode
+CLAUDE.md
+project.md
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

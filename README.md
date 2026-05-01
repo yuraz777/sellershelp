@@ -4,7 +4,7 @@
 - Next.js 14 (App Router)
 - TypeScript
 - Tailwind CSS
-- Vercel (хостинг)
+- Timeweb App Platform (хостинг, Docker)
 
 ## Структура сайта
 1. **Hero** — главный оффер
@@ -27,19 +27,13 @@ npm run dev
 
 Откройте http://localhost:3000
 
-## Деплой на Vercel
+## Деплой на Timeweb App Platform
 
-### Способ 1 — через GitHub (рекомендуется)
-1. Создайте репозиторий на GitHub и загрузите все файлы
-2. Зайдите на vercel.com → New Project
-3. Выберите ваш репозиторий
-4. Нажмите Deploy — готово!
+Сайт разворачивается через Docker (Dockerfile в корне проекта).
 
-### Способ 2 — через Vercel CLI
-```bash
-npm i -g vercel
-vercel
-```
+1. Зайти в Timeweb → проект SellersHelp → App Platform
+2. При обновлении кода — пушить в репозиторий `yuraz777/sellershelp` (аккаунт yuraz777)
+3. Timeweb подхватывает изменения автоматически через GitHub-интеграцию
 
 ## Замена фото команды
 Все фото находятся в папке `/public/team/`
